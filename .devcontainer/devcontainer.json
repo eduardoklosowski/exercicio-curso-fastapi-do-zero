@@ -1,0 +1,31 @@
+{
+    "name": "fast-zero",
+
+    "image": "mcr.microsoft.com/devcontainers/python:3.12-bookworm",
+
+    "containerUser": "vscode",
+    "runArgs": [
+        "--userns=keep-id"
+    ],
+    "mounts": [
+        {
+            "type": "bind",
+            "source": "/etc/localtime",
+            "target": "/etc/localtime"
+        }
+    ],
+
+    "postCreateCommand": "./scripts/init-devcontainer.sh",
+
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "editorconfig.editorconfig",
+                "tamasfe.even-better-toml"
+            ],
+            "settings": {
+                "python.defaultInterpreterPath": "./.venv/bin/python"
+            }
+        }
+    }
+}
