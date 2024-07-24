@@ -1,0 +1,13 @@
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+name = "fast-zero"
+version = "0.0.0"
+description = "Código do curso FastAPI do Zero"
+authors = []
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "~3.12"

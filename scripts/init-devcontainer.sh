@@ -14,3 +14,4 @@ echo 'eval "$(register-python-argcomplete pipx)"' > ~/.local/share/bash-completi
 pipx install poetry
 echo 'eval "$(poetry completions bash)"' > ~/.local/share/bash-completion/completions/poetry
 poetry config virtualenvs.in-project true
+poetry install --sync
