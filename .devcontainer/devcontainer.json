@@ -7,6 +7,13 @@
     "runArgs": [
         "--userns=keep-id"
     ],
+    "forwardPorts": [8000],
+    "portsAttributes": {
+        "8000": {
+            "label": "Application",
+            "onAutoForward": "notify"
+        }
+    },
     "mounts": [
         {
             "type": "bind",
