@@ -1,5 +1,7 @@
 from http import HTTPStatus
 
+from fast_zero.schemas import UserPublic
+
 
 def test_root_deve_retornar_ok_e_ola_mundo(client):
     response = client.get('/')
@@ -34,30 +36,29 @@ def test_create_user(client):
     }
 
 
-def test_read_users(client):
+def test_read_users_sem_usuarios(client):
     response = client.get('/users/')
 
     assert response.status_code == HTTPStatus.OK
-    assert response.json() == {
-        'users': [
-            {
-                'username': 'alice',
-                'email': 'alice@example.com',
-                'id': 1,
-            },
-        ],
-    }
+    assert response.json() == {'users': []}
 
 
-def test_read_user(client):
-    response = client.get('/users/1')
+def test_read_users_com_usuarios(client, user):
+    user_schema = UserPublic.model_validate(user, from_attributes=True).model_dump()
+
+    response = client.get('/users/')
 
     assert response.status_code == HTTPStatus.OK
-    assert response.json() == {
-        'username': 'alice',
-        'email': 'alice@example.com',
-        'id': 1,
-    }
+    assert response.json() == {'users': [user_schema]}
+
+
+def test_read_user(client, user):
+    user_schema = UserPublic.model_validate(user, from_attributes=True).model_dump()
+
+    response = client.get(f'/users/{user.id}')
+
+    assert response.status_code == HTTPStatus.OK
+    assert response.json() == user_schema
 
 
 def test_read_user_com_id_invalido(client):
@@ -67,9 +68,9 @@ def test_read_user_com_id_invalido(client):
     assert response.json() == {'detail': 'User not found'}
 
 
-def test_update_user(client):
+def test_update_user(client, user):
     response = client.put(
-        '/users/1',
+        f'/users/{user.id}',
         json={
             'username': 'bob',
             'email': 'bob@example.com',
@@ -99,8 +100,8 @@ def test_update_user_com_id_invalido(client):
     assert response.json() == {'detail': 'User not found'}
 
 
-def test_delete_user(client):
-    response = client.delete('/users/1')
+def test_delete_user(client, user):
+    response = client.delete(f'/users/{user.id}')
 
     assert response.status_code == HTTPStatus.OK
     assert response.json() == {'message': 'User deleted'}
