@@ -11,6 +11,9 @@ __pycache__
 /.coverage.*
 /htmlcov
 
+# Data
+/database.db
+
 # Editors
 *.swp
 /.idea

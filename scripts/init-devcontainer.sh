@@ -2,6 +2,9 @@
 
 sudo apt update
 
+# SQLite
+sudo apt install --no-install-recommends sqlite3
+
 # Completion
 sudo apt install --no-install-recommends bash-completion
 mkdir -p ~/.local/share/bash-completion/completions
