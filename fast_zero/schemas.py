@@ -12,5 +12,10 @@ class UserSchema(BaseModel):
 
 
 class UserPublic(BaseModel):
+    id: int
     username: str
     email: EmailStr
+
+
+class UserDB(UserSchema):
+    id: int
