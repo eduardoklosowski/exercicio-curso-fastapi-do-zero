@@ -35,6 +35,20 @@ def test_create_user(client):
         'id': 1,
     }
 
+def test_create_user_com_mesmo_username(client, user):
+    response = client.post(
+        '/users/',
+        json={
+            'username': user.username,
+            'email': 'alice@example.com',
+            'password': 'secret',
+        },
+    )
+
+    assert response.status_code == HTTPStatus.BAD_REQUEST
+    assert response.json() == {'detail': 'Username already exists'}
+
+
 
 def test_read_users_sem_usuarios(client):
     response = client.get('/users/')
