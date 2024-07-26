@@ -2,7 +2,7 @@ from datetime import UTC, datetime
 from http import HTTPStatus
 
 import jwt
-from fast_zero.security import SECRET_KEY, create_access_token, get_password_hash, verify_password
+from fast_zero.security import create_access_token, get_password_hash, settings, verify_password
 
 
 def test_jwt():
@@ -10,7 +10,7 @@ def test_jwt():
 
     token = create_access_token(data)
 
-    decoded = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
+    decoded = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
 
     assert decoded['test'] == data['test']
     assert datetime.fromtimestamp(decoded['exp'], UTC) > datetime.now(UTC)
