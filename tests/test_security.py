@@ -1,4 +1,5 @@
 from datetime import UTC, datetime
+from http import HTTPStatus
 
 import jwt
 from fast_zero.security import SECRET_KEY, create_access_token, get_password_hash, verify_password
@@ -13,6 +14,13 @@ def test_jwt():
 
     assert decoded['test'] == data['test']
     assert datetime.fromtimestamp(decoded['exp'], UTC) > datetime.now(UTC)
+
+
+def test_jwt_invalid_token(client):
+    response = client.delete('/users/1', headers={'Authorization': 'Bearer token-invalido'})
+
+    assert response.status_code == HTTPStatus.UNAUTHORIZED
+    assert response.json() == {'detail': 'Could not validate credentials'}
 
 
 def test_senha():
