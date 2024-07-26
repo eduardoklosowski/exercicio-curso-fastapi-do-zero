@@ -30,6 +30,26 @@ def test_get_token(client, user):
     assert 'access_token' in token
 
 
+def test_get_token_com_usuario_desconhecido(client):
+    response = client.post(
+        '/token',
+        data={'username': 'test', 'password': 'test'},
+    )
+
+    assert response.status_code == HTTPStatus.BAD_REQUEST
+    assert response.json() == {'detail': 'Incorrect email or password'}
+
+
+def test_get_token_com_senha_invalido(client, user):
+    response = client.post(
+        '/token',
+        data={'username': user.email, 'password': 'test'},
+    )
+
+    assert response.status_code == HTTPStatus.BAD_REQUEST
+    assert response.json() == {'detail': 'Incorrect email or password'}
+
+
 def test_create_user(client):
     response = client.post(
         '/users/',
@@ -127,9 +147,10 @@ def test_update_user(client, user, token):
     }
 
 
-def test_update_user_com_id_invalido(client):
+def test_update_user_com_id_invalido(client, user, token):
     response = client.put(
-        '/users/0',
+        f'/users/{user.id + 1}',
+        headers={'Authorization': f'Bearer {token}'},
         json={
             'username': 'bob',
             'email': 'bob@example.com',
@@ -137,8 +158,8 @@ def test_update_user_com_id_invalido(client):
         },
     )
 
-    assert response.status_code == HTTPStatus.NOT_FOUND
-    assert response.json() == {'detail': 'User not found'}
+    assert response.status_code == HTTPStatus.FORBIDDEN
+    assert response.json() == {'detail': 'Not enough permissions'}
 
 
 def test_delete_user(client, user, token):
@@ -151,8 +172,8 @@ def test_delete_user(client, user, token):
     assert response.json() == {'message': 'User deleted'}
 
 
-def test_delete_user_com_id_invalido(client):
-    response = client.delete('/users/0')
+def test_delete_user_com_id_invalido(client, user, token):
+    response = client.delete(f'/users/{user.id + 1}', headers={'Authorization': f'Bearer {token}'})
 
-    assert response.status_code == HTTPStatus.NOT_FOUND
-    assert response.json() == {'detail': 'User not found'}
+    assert response.status_code == HTTPStatus.FORBIDDEN
+    assert response.json() == {'detail': 'Not enough permissions'}

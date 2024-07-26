@@ -23,6 +23,24 @@ def test_jwt_invalid_token(client):
     assert response.json() == {'detail': 'Could not validate credentials'}
 
 
+def test_jwt_sem_usuario(client):
+    token = create_access_token({})
+
+    response = client.delete('/users/1', headers={'Authorization': f'Bearer {token}'})
+
+    assert response.status_code == HTTPStatus.UNAUTHORIZED
+    assert response.json() == {'detail': 'Could not validate credentials'}
+
+
+def test_jwt_com_usuario_desconhecido(client):
+    token = create_access_token({'sub': 'test'})
+
+    response = client.delete('/users/1', headers={'Authorization': f'Bearer {token}'})
+
+    assert response.status_code == HTTPStatus.UNAUTHORIZED
+    assert response.json() == {'detail': 'Could not validate credentials'}
+
+
 def test_senha():
     pwd = 'test'
 
