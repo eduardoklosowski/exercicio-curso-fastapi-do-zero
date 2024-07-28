@@ -44,6 +44,8 @@ def get_current_user(session: Session = Depends(get_session), token: str = Depen
         username: str = payload.get('sub')
         if not username:
             raise credentials_exception
+    except jwt.ExpiredSignatureError:
+        raise credentials_exception
     except jwt.DecodeError:
         raise credentials_exception
 
