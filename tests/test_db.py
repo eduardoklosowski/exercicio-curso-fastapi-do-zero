@@ -2,7 +2,7 @@ from unittest.mock import patch
 
 import pytest
 from fast_zero.database import get_session
-from fast_zero.models import User
+from fast_zero.models import Todo, User
 from sqlalchemy import create_engine, select, text
 
 
@@ -28,3 +28,18 @@ def test_create_user(session):
     user = session.scalar(select(User).where(User.username == 'alice'))
 
     assert user.username == 'alice'
+
+
+def test_create_todo(session, user):
+    todo = Todo(
+        title='Test Todo',
+        description='Test Desc',
+        state='draft',
+        user_id=user.id,
+    )
+
+    session.add(todo)
+    session.commit()
+    session.refresh(todo)
+
+    assert todo in user.todos
