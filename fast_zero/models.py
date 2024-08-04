@@ -34,7 +34,7 @@ class TodoState(str, Enum):
     trash = 'trash'
 
 
-class Todo(Base, kw_only=True):
+class Todo(TimestampMixin, Base, kw_only=True):
     __tablename__ = 'todos'
 
     id: Mapped[int] = mapped_column(primary_key=True, init=False)
