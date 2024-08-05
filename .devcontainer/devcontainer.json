@@ -3,10 +3,6 @@
 
     "image": "mcr.microsoft.com/devcontainers/python:3.12-bookworm",
 
-    "containerUser": "vscode",
-    "runArgs": [
-        "--userns=keep-id"
-    ],
     "forwardPorts": [8000],
     "portsAttributes": {
         "8000": {

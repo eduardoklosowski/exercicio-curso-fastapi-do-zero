@@ -11,15 +11,12 @@ As principais diferenças são:
 
 Esse projeto requer as seguintes ferramentas instaladas:
 
-- [Podman](https://podman.io/) (opção com Docker será apresentada mais a diante)
+- [Docker Engine](https://docs.docker.com/engine/)
+- [Docker Compose](https://docs.docker.com/compose/)
 - [Visual Studio Code](https://code.visualstudio.com/Download)
 - Plugin [Dev Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
 
 Após isso, ao abrir o projeto no VS Code, será sugerido abrir o projeto dentro de um contêiner, ao aceitar, todo o ambiente necessário para desenvolver a aplicação será criado.
-
-### Dev Containers no Docker
-
-Também é possível usar esse projeto com [Docker](https://www.docker.com/) no lugar do Podman, porém para isso é necessário editar o arquivo `.devcontainer/devcontainer.json` removendo o atributo `runArgs` junto com sua lista de valores. Após isso, basta abrir o projeto no VS Code e concordar em reabri-lo dentro de um contêiner.
 
 ### Executar Testes no Commit (Opcional)
 
