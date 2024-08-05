@@ -41,3 +41,14 @@ make -j lint test
 EOF
 chmod +x .git/hooks/pre-commit
 ```
+
+### pgAdmin4
+
+Este esse projeto possui o [pgAdmin4](https://www.pgadmin.org/) para a adiministração do banco de dados [PostgreSQL](https://www.postgresql.org/). Use as informações a baixo para acessá-lo:
+
+```txt
+URL: http://localhost:5050/
+Usuário: user@test.com
+Senha: postgres
+Senha do banco: postgres
+```

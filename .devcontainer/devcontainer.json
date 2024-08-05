@@ -1,13 +1,27 @@
 {
     "name": "fast-zero",
 
-    "image": "mcr.microsoft.com/devcontainers/python:3.12-bookworm",
+    "dockerComposeFile": "compose.yml",
+    "service": "dev",
 
-    "forwardPorts": [8000],
+    "workspaceFolder": "/workspaces/fast-zero",
+    "forwardPorts": [8000, 5432, 5050],
     "portsAttributes": {
         "8000": {
             "label": "Application",
             "onAutoForward": "notify"
+        },
+        "5432": {
+            "label": "PostgreSQL",
+            "onAutoForward": "silent"
+        },
+        "5050": {
+            "label": "pgAdmin4",
+            "onAutoForward": "silent"
+        },
+        "25": {
+            "label": "Postfix in pgAdmin4",
+            "onAutoForward": "ignore"
         }
     },
     "mounts": [
@@ -25,6 +39,7 @@
             "extensions": [
                 "editorconfig.editorconfig",
                 "tamasfe.even-better-toml",
+                "redhat.vscode-yaml",
                 "charliermarsh.ruff"
             ],
             "settings": {

@@ -3,7 +3,7 @@
 sudo apt update
 
 # SQLite
-sudo apt install --no-install-recommends sqlite3
+sudo apt install -y --no-install-recommends postgresql-client
 
 # Completion
 sudo apt install --no-install-recommends bash-completion

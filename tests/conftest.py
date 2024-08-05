@@ -1,13 +1,18 @@
+from urllib.parse import urlparse
+
 import factory
+import psycopg
 import pytest
 from fast_zero.app import app
 from fast_zero.database import get_session
 from fast_zero.models import Base, User
 from fast_zero.security import get_password_hash
+from fast_zero.settings import Settings
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
-from sqlalchemy.pool import StaticPool
+
+from tests.utils import randstr
 
 
 class UserFactory(factory.Factory):
@@ -31,9 +36,24 @@ def client(session):
     app.dependency_overrides.clear()
 
 
+@pytest.fixture(scope='session')
+def engine():
+    database_url = urlparse(Settings().DATABASE_URL)
+    main_url = database_url._replace(scheme='postgresql').geturl()
+    test_database = f'{database_url.path.removeprefix('/')}_test_{randstr(16).lower()}'
+    test_url = database_url._replace(path=test_database).geturl()
+
+    main_conn = psycopg.connect(main_url, autocommit=True)
+    main_conn.execute(f'CREATE DATABASE {test_database}')
+
+    yield create_engine(test_url)
+
+    main_conn.execute(f'DROP DATABASE {test_database} WITH (FORCE)')
+    main_conn.close()
+
+
 @pytest.fixture()
-def session():
-    engine = create_engine('sqlite:///:memory:', connect_args={'check_same_thread': False}, poolclass=StaticPool)
+def session(engine):
     Base.metadata.create_all(engine)
 
     with Session(engine) as session:
