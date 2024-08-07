@@ -18,3 +18,7 @@ pipx install poetry
 echo 'eval "$(poetry completions bash)"' > ~/.local/share/bash-completion/completions/poetry
 poetry config virtualenvs.in-project true
 poetry install --sync
+
+# act
+mkdir -p ~/.local/bin
+(cd ~/.local/bin && wget -O- https://github.com/nektos/act/releases/download/v0.2.65/act_Linux_x86_64.tar.gz | tar -xzf - act)
