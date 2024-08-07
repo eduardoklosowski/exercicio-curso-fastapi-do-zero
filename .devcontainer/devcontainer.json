@@ -3,6 +3,9 @@
 
     "dockerComposeFile": "compose.yml",
     "service": "dev",
+    "features": {
+        "ghcr.io/devcontainers/features/docker-in-docker:2": {}
+    },
 
     "workspaceFolder": "/workspaces/fast-zero",
     "forwardPorts": [8000, 5432, 5050],

@@ -1,0 +1,22 @@
+# Python
+**/*.py[cod]
+**/__pycache__
+/dist
+
+# Development tools
+/.git
+/.venv
+/.ruff_cache
+/.pytest_cache
+/.coverage
+/.coverage.*
+/htmlcov
+
+# Data
+/database.db
+/.env
+
+# Editors
+**/*.swp
+/.idea
+/.vscode
